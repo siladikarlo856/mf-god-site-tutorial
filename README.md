@@ -206,7 +206,7 @@ Use the component in the app
 </script>
 ```
 
-Step 4: Expose Carousel component from ‘dog-detail’ app and consume it in ‘home’ app
+## Step 4: Expose Carousel component from ‘dog-detail’ app and consume it in ‘home’ app
 
 Create a component in src/Carousel.vue
 
