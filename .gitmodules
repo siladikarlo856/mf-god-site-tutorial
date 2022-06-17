@@ -1,0 +1,9 @@
+[submodule "home"]
+	path = home
+	url = https://github.com/siladikarlo856/mf-dog-site-home.git
+[submodule "dog-detail"]
+	path = dog-detail
+	url = https://github.com/siladikarlo856/mf-dog-site-dog-detail.git
+[submodule "react-host"]
+	path = react-host
+	url = https://github.com/siladikarlo856/mf-dog-site-react-host.git
