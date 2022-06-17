@@ -6,27 +6,27 @@ The apps will be created using: https://www.npmjs.com/package/create-mf-app
 
 The final code can be found on GitHub: 
 
-Step 1: Create home app
-
+## Step 1: Create home app
+```
 npx create-mf-app
-
+```
 Settings
-
+```
 ? Pick the name of your app: home
 ? Project Type: Application
 ? Port number: 8080
 ? Framework: vue3
 ? Language: javascript 
 ? CSS: CSS
-
+```
 Install packages and start the dev server
-
+```
 cd home
 npm i 
 npm start
-
+```
 Delete content from index.css and replace the content within App.vue with the following:
-
+```
 <style>
 .container {
   width: 800px;
@@ -57,29 +57,28 @@ Delete content from index.css and replace the content within App.vue with the fo
   </div>
 </div>
 </template>
-
-Step 2: Create dog-detail app
-
-cd .. 
+```
+## Step 2: Create dog-detail app
+```
 npx create-mf-app
-
+```
 Settings
-
+```
 ? Pick the name of your app: dog-detail
 ? Project Type: Application
 ? Port number: 8081
 ? Framework: vue3
 ? Language: javascript 
 ? CSS: CSS
-
+```
 Install packages and start the dev server
-
+```
 cd dog-detail
 npm i 
 npm start
-
+```
 Delete content from index.css and replace the content within App.vue with the following:
-
+```
 <style>
 .container {
   width: 800px;
@@ -132,11 +131,11 @@ Delete content from index.css and replace the content within App.vue with the fo
   </div>
 </div>
 </template>
-
-Step 3: Expose Header component from ‘home’ app and consume it in ‘dog-detail’ app
+```
+## Step 3: Expose Header component from ‘home’ app and consume it in ‘dog-detail’ app
 
 Create Header component src/Header.vue
-
+```
 <style>
 header {
   background: lightblue;
@@ -170,26 +169,26 @@ export default {
   }
 }
 </script>
-
+```
 
 
 Expose the Header component  from the home app by editing home app > webpack.config.js
-
+```
 exposes: {
   './Header': './src/Header.vue'
 },
-
+```
 
 Consume the Header component for the home app in the dog-detail app.
 
 First, edit dog-detail > webpack.config.js
-
+```
 remotes: {
   home: 'home@http://localhost:8080/remoteEntry.js'
 },
-
+```
 Use the component in the app
-
+```
 <template>
 <div class="container">
   <Header />
@@ -205,16 +204,13 @@ Use the component in the app
     }
   }
 </script>
-
-Result:
-
-dog-detail app
+```
 
 Step 4: Expose Carousel component from ‘dog-detail’ app and consume it in ‘home’ app
 
 Create a component in src/Carousel.vue
 
- @@ -0,0 +1,32 @@
+```
 <style>
 .carousel {
   display: grid;
@@ -247,9 +243,9 @@ Create a component in src/Carousel.vue
     </div>
   </div>
 </template>
-
+```
 Use the component in dog-detail > App.vue
-
+```
 <template>
 ...
   <Carousel />
@@ -267,9 +263,9 @@ Use the component in dog-detail > App.vue
     }
   }
 </script>
-
+```
 Expose component using MF plugin in dog-details > webpack.config.js file
-
+```
 new ModuleFederationPlugin({
   name: "dog_detail",
   name: "dogDetail",
@@ -283,15 +279,15 @@ new ModuleFederationPlugin({
   },
   shared: require("./package.json").dependencies,
 }),
-
+```
 Consume component using MF plugin in home app by editing home > webpack.config.js
-
+```
 remotes: {
   dogDetail: 'dogDetail@http://localhost:8081/remoteEntry.js'
 },
-
+```
 And use it in home > App.vue
-
+```
 <template>
   ....  
   <Carousel />
@@ -308,32 +304,29 @@ export default {
     Carousel,
   }
 }
+```
 
-Result:
-
-home app
-
-Step 5: Consume Vue Header component in React app ‘react-hots’ 
-
+## Step 5: Consume Vue Header component in React app ‘react-hots’ 
+```
 npx create-mf-app
-
+```
 Settings
-
+```
 ? Pick the name of your app: react-host
 ? Project Type: Application
 ? Port number: 8082
 ? Framework: react
 ? Language: javascript
 ? CSS: CSS
-
+```
 Install packages and start the dev server
-
+```
 cd dog-detail
 npm i 
 npm start
-
+```
 Consume remote MF component by adding MF plugin in webpack.config.js
-
+```
  plugins: [
     new ModuleFederationPlugin({
       name: "react_host",
@@ -342,39 +335,30 @@ Consume remote MF component by adding MF plugin in webpack.config.js
         home: 'home@http://localhost:8080/remoteEntry.js',
       },
       ....
-
+```
 In the App.jsx fill add
-
+```
 import mountHeader from "home/mountHeader";
 ...
 mountHeader('#header');
 
 const App = () => (
 ....
-
-Result:
-
-Vue Header component in React app 
-
-Step 6: Dynamic Vue component loading 
+```
+## Step 6: Dynamic Vue component loading 
 
 Add a <button> element with onClick handler 
-
+```
 <div>
   <button onClick={launchHeader}>Launch Header</button>
 </div>
-
+```
 On button click, the module shall be loaded and initiated. The mountHeader is a module, not a function so the default shall be used.
-
+```
 const launchHeader = () => {
   import('home/mountHeader')
     .then(mountHeader => {
       mountHeader.default('#header');
     }) 
 }
-
-Result:
-
-On page load Header is not loaded
-
-Header is loaded on button click
+```
